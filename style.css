@@ -17,14 +17,13 @@
 }
 
 body {
-    font-family: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif;
+    font-family: -apple-system, system-ui, sans-serif;
     line-height: 1.6;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     background-color: var(--bg-color);
     color: var(--text-color);
     min-height: 100vh;
-    background: linear-gradient(to bottom, #000000, #12101a);
 }
 
 .container {
@@ -34,38 +33,21 @@ body {
 }
 
 .form-card1 {
-    background-image: var(--card-gradient);
-    border-radius: 16px;
-    padding: 2px;
-    transition: all 0.3s;
+    background-color: var(--container-color);
+    border-radius: 10px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 20px rgba(177, 78, 252, 0.15);
-}
-
-.form-card1:hover {
-    box-shadow: var(--card-shadow);
-    transform: translateY(-2px);
+    border: 1px solid var(--border-color);
 }
 
 .form-card2 {
-    background-color: var(--container-color);
-    border-radius: 15px;
-    transition: all 0.3s;
     padding: 25px;
-    border: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
-}
-
-.form-card2:hover {
-    transform: scale(0.995);
 }
 
 h1 {
     color: var(--primary-color);
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2.5rem;
-    text-shadow: 0 0 15px rgba(177, 78, 252, 0.3);
+    font-size: 2rem;
 }
 
 h2, h3 {
@@ -74,52 +56,37 @@ h2, h3 {
 
 .btn {
     display: inline-block;
-    padding: 12px 28px;
-    background-color: transparent;
-    color: var(--primary-color);
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #ffffff;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 5px;
     margin: 5px;
-    font-weight: 500;
-    border: 2px solid var(--primary-color);
+    border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: var(--primary-color);
-    color: var(--btn-text);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(177, 78, 252, 0.3);
+    background-color: var(--primary-hover);
 }
 
 .danger {
-    color: var(--danger-color);
-    border-color: var(--danger-color);
+    background-color: var(--danger-color);
 }
 
 .danger:hover {
-    background-color: var(--danger-color);
-    color: var(--btn-text);
-    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    background-color: var(--danger-hover);
 }
 
 .form-group {
-    margin-bottom: 25px;
-    color: var(--text-color);
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: var(--text-muted);
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 input[type="text"],
@@ -128,13 +95,12 @@ input[type="file"],
 select,
 textarea {
     width: 100%;
-    padding: 14px;
+    padding: 10px;
     background-color: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
     color: var(--text-color);
     font-size: 1rem;
-    transition: all 0.3s ease;
 }
 
 input[type="text"]:focus,
@@ -143,25 +109,23 @@ textarea:focus,
 select:focus {
     border-color: var(--primary-color);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(177, 78, 252, 0.2);
 }
 
 textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 100px;
 }
 
 .game-details {
     display: flex;
-    gap: 40px;
+    gap: 30px;
     margin-bottom: 30px;
 }
 
 .game-cover img {
     max-width: 300px;
     height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
     border: 1px solid var(--border-color);
 }
 
@@ -176,29 +140,26 @@ textarea {
 
 .game-info strong {
     color: var(--primary-color);
-    font-weight: 600;
 }
 
 .actions {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin-top: 35px;
+    margin-top: 30px;
 }
 
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
     margin: 25px 0;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
     background-color: var(--container-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
 }
 
 th, td {
-    padding: 16px;
+    padding: 12px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
 }
@@ -206,36 +167,62 @@ th, td {
 th {
     background-color: var(--input-bg);
     color: var(--primary-color);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 tr:hover {
-    background-color: rgba(177, 78, 252, 0.1);
+    background-color: var(--input-bg);
 }
 
 .search-container {
-    margin-bottom: 35px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    margin-bottom: 30px;
 }
 
-.search-container input[type="text"],
-.search-container select {
-    padding: 12px;
+.search-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.search-input {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input input[type="text"] {
     flex: 1;
-    min-width: 200px;
+}
+
+.search-input .btn {
+    white-space: nowrap;
+}
+
+.filter-group {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-group select {
+    flex: 1;
 }
 
 .clickable-row {
     cursor: pointer;
-    transition: all 0.2s ease;
 }
 
 @media (max-width: 768px) {
+    .search-input {
+        flex-direction: column;
+    }
+    
+    .filter-group {
+        flex-direction: column;
+    }
+    
+    .search-input .btn {
+        width: 100%;
+    }
+    
     .game-details {
         flex-direction: column;
     }
@@ -251,9 +238,5 @@ tr:hover {
     .btn {
         width: 100%;
         text-align: center;
-    }
-    
-    .search-container {
-        flex-direction: column;
     }
 } 

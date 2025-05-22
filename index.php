@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VoidBound</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <div class="container">
@@ -18,32 +18,36 @@
                 </div>
 
                 <div class="search-container">
-                    <form action="" method="GET">
-                        <input type="text" name="search" placeholder="Search games..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                    <form action="" method="GET" id="searchForm">
+                        <div class="search-group">
+                            <div class="search-input">
+                                <input type="text" name="search" placeholder="Search games..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                                <button type="submit" class="btn">Search</button>
+                            </div>
+                            <div class="filter-group">
+                                <select name="genre" onchange="this.form.submit()">
+                                    <option value="">All Genres</option>
+                                    <?php
+                                    $genres = $pdo->query("SELECT DISTINCT genre FROM games ORDER BY genre");
+                                    while ($g = $genres->fetch(PDO::FETCH_ASSOC)) {
+                                        $selected = (isset($_GET['genre']) && $_GET['genre'] === $g['genre']) ? 'selected' : '';
+                                        echo "<option value=\"{$g['genre']}\" $selected>{$g['genre']}</option>";
+                                    }
+                                    ?>
+                                </select>
 
-                        <select name="genre">
-                            <option value="">All Genres</option>
-                            <?php
-                            $genres = $pdo->query("SELECT DISTINCT genre FROM games ORDER BY genre");
-                            while ($g = $genres->fetch(PDO::FETCH_ASSOC)) {
-                                $selected = (isset($_GET['genre']) && $_GET['genre'] === $g['genre']) ? 'selected' : '';
-                                echo "<option value=\"{$g['genre']}\" $selected>{$g['genre']}</option>";
-                            }
-                            ?>
-                        </select>
-
-                        <select name="platform">
-                            <option value="">All Platforms</option>
-                            <?php
-                            $platforms = $pdo->query("SELECT DISTINCT platform FROM games ORDER BY platform");
-                            while ($p = $platforms->fetch(PDO::FETCH_ASSOC)) {
-                                $selected = (isset($_GET['platform']) && $_GET['platform'] === $p['platform']) ? 'selected' : '';
-                                echo "<option value=\"{$p['platform']}\" $selected>{$p['platform']}</option>";
-                            }
-                            ?>
-                        </select>
-
-                        <button type="submit" class="btn">Filter</button>
+                                <select name="platform" onchange="this.form.submit()">
+                                    <option value="">All Platforms</option>
+                                    <?php
+                                    $platforms = $pdo->query("SELECT DISTINCT platform FROM games ORDER BY platform");
+                                    while ($p = $platforms->fetch(PDO::FETCH_ASSOC)) {
+                                        $selected = (isset($_GET['platform']) && $_GET['platform'] === $p['platform']) ? 'selected' : '';
+                                        echo "<option value=\"{$p['platform']}\" $selected>{$p['platform']}</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                     </form>
                 </div>
 
@@ -89,7 +93,6 @@
                     <tbody>
                         <?php
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            $link = "view.php?id={$row['id']}";
                             echo "<tr class='clickable-row' data-href='view.php?id={$row['id']}'>";
                             echo "<td>{$row['title']}</td>";
                             echo "<td>{$row['developer']}</td>";
@@ -106,7 +109,6 @@
     </div>
 </body>
 
-<!-- tiny script here -->
 <script>
     document.querySelectorAll(".clickable-row").forEach(row => {
         row.addEventListener("click", () => {
