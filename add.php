@@ -47,13 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form action="add.php" method="post">
                     <!-- Title Field (Required) -->
                     <div class="form-group">
-                        <label for="title">Title*</label>
+                        <label for="title">Title</label>
                         <input type="text" id="title" name="title" class="input-field" required>
                     </div>
                     
                     <!-- Developer Field (Required) -->
                     <div class="form-group">
-                        <label for="developer">Developer*</label>
+                        <label for="developer">Developer</label>
                         <input type="text" id="developer" name="developer" class="input-field" required>
                     </div>
                     
