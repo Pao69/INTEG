@@ -1,0 +1,149 @@
+<?php
+include 'db.php';
+
+if (!isset($_GET['id'])) {
+    header("Location: index.php");
+    exit;
+}
+
+$id = $_GET['id'];
+$stmt = $pdo->prepare("SELECT * FROM games WHERE id = ?");
+$stmt->execute([$id]);
+$game = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$game) {
+    header("Location: index.php");
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'];
+    $developer = $_POST['developer'];
+    $publisher = $_POST['publisher'];
+    $release_date = $_POST['release_date'];
+    $genre = $_POST['genre'];
+    $platform = $_POST['platform'];
+    $description = $_POST['description'];
+    
+    // Handle file upload
+    $cover_image = $game['cover_image'];
+    if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
+        // Delete old image if exists
+        if ($cover_image && file_exists("assets/{$cover_image}")) {
+            unlink("assets/{$cover_image}");
+        }
+        
+        $uploadDir = 'assets/';
+        $fileName = uniqid() . '_' . basename($_FILES['cover_image']['name']);
+        $targetPath = $uploadDir . $fileName;
+        
+        if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $targetPath)) {
+            $cover_image = $fileName;
+        }
+    }
+    
+    // Handle image removal
+    if (isset($_POST['remove_image']) && $_POST['remove_image'] == 'on') {
+        if ($cover_image && file_exists("assets/{$cover_image}")) {
+            unlink("assets/{$cover_image}");
+        }
+        $cover_image = '';
+    }
+    
+    $stmt = $pdo->prepare("UPDATE games SET title = ?, developer = ?, publisher = ?, release_date = ?, 
+                          genre = ?, platform = ?, description = ?, cover_image = ? WHERE id = ?");
+    $stmt->execute([$title, $developer, $publisher, $release_date, $genre, $platform, $description, $cover_image, $id]);
+    
+    header("Location: index.php");
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-card1">
+            <div class="form-card2">
+                <h1>Edit Game</h1>
+                <form action="edit.php?id=<?= $id ?>" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="title">Title*</label>
+                        <input type="text" id="title" name="title" class="input-field" value="<?= htmlspecialchars($game['title']) ?>" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="developer">Developer*</label>
+                        <input type="text" id="developer" name="developer" class="input-field" value="<?= htmlspecialchars($game['developer']) ?>" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="publisher">Publisher</label>
+                        <input type="text" id="publisher" name="publisher" class="input-field" value="<?= htmlspecialchars($game['publisher']) ?>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="release_date">Release Date</label>
+                        <input type="date" id="release_date" name="release_date" class="input-field" value="<?= $game['release_date'] ?>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="genre">Genre</label>
+                        <select id="genre" name="genre" class="input-field">
+                            <option value="Action" <?= $game['genre'] === 'Action' ? 'selected' : '' ?>>Action</option>
+                            <option value="Adventure" <?= $game['genre'] === 'Adventure' ? 'selected' : '' ?>>Adventure</option>
+                            <option value="RPG" <?= $game['genre'] === 'RPG' ? 'selected' : '' ?>>RPG</option>
+                            <option value="Strategy" <?= $game['genre'] === 'Strategy' ? 'selected' : '' ?>>Strategy</option>
+                            <option value="Sports" <?= $game['genre'] === 'Sports' ? 'selected' : '' ?>>Sports</option>
+                            <option value="Puzzle" <?= $game['genre'] === 'Puzzle' ? 'selected' : '' ?>>Puzzle</option>
+                            <option value="Other" <?= !in_array($game['genre'], ['Action', 'Adventure', 'RPG', 'Strategy', 'Sports', 'Puzzle']) ? 'selected' : '' ?>>Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="platform">Platform</label>
+                        <select id="platform" name="platform" class="input-field">
+                            <option value="PC" <?= $game['platform'] === 'PC' ? 'selected' : '' ?>>PC</option>
+                            <option value="PlayStation" <?= $game['platform'] === 'PlayStation' ? 'selected' : '' ?>>PlayStation</option>
+                            <option value="Xbox" <?= $game['platform'] === 'Xbox' ? 'selected' : '' ?>>Xbox</option>
+                            <option value="Nintendo Switch" <?= $game['platform'] === 'Nintendo Switch' ? 'selected' : '' ?>>Nintendo Switch</option>
+                            <option value="Mobile" <?= $game['platform'] === 'Mobile' ? 'selected' : '' ?>>Mobile</option>
+                            <option value="Other" <?= !in_array($game['platform'], ['PC', 'PlayStation', 'Xbox', 'Nintendo Switch', 'Mobile']) ? 'selected' : '' ?>>Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="4" class="input-field"><?= htmlspecialchars($game['description']) ?></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cover_image">Cover Image</label>
+                        <?php if ($game['cover_image']): ?>
+                            <div>
+                                <img src="assets/<?= $game['cover_image'] ?>" alt="Current Cover" style="max-width: 200px; margin-bottom: 10px; border-radius: 5px;">
+                                <br>
+                                <label style="display: flex; align-items: center;">
+                                    <input type="checkbox" name="remove_image"> Remove current image
+                                </label>
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" id="cover_image" name="cover_image" accept="image/*" class="input-field">
+                    </div>
+                    
+                    <div class="actions">
+                        <button type="submit" class="btn">Update Game</button>
+                        <a href="index.php" class="btn danger">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
