@@ -25,34 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $platform = $_POST['platform'];
     $description = $_POST['description'];
     
-    // Handle file upload
-    $cover_image = $game['cover_image'];
-    if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
-        // Delete old image if exists
-        if ($cover_image && file_exists("assets/{$cover_image}")) {
-            unlink("assets/{$cover_image}");
-        }
-        
-        $uploadDir = 'assets/';
-        $fileName = uniqid() . '_' . basename($_FILES['cover_image']['name']);
-        $targetPath = $uploadDir . $fileName;
-        
-        if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $targetPath)) {
-            $cover_image = $fileName;
-        }
-    }
-    
-    // Handle image removal
-    if (isset($_POST['remove_image']) && $_POST['remove_image'] == 'on') {
-        if ($cover_image && file_exists("assets/{$cover_image}")) {
-            unlink("assets/{$cover_image}");
-        }
-        $cover_image = '';
-    }
-    
     $stmt = $pdo->prepare("UPDATE games SET title = ?, developer = ?, publisher = ?, release_date = ?, 
-                          genre = ?, platform = ?, description = ?, cover_image = ? WHERE id = ?");
-    $stmt->execute([$title, $developer, $publisher, $release_date, $genre, $platform, $description, $cover_image, $id]);
+                          genre = ?, platform = ?, description = ? WHERE id = ?");
+    $stmt->execute([$title, $developer, $publisher, $release_date, $genre, $platform, $description, $id]);
     
     header("Location: index.php");
     exit;
@@ -72,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-card1">
             <div class="form-card2">
                 <h1>Edit Game</h1>
-                <form action="edit.php?id=<?= $id ?>" method="post" enctype="multipart/form-data">
+                <form action="edit.php?id=<?= $id ?>" method="post">
                     <div class="form-group">
                         <label for="title">Title*</label>
                         <input type="text" id="title" name="title" class="input-field" value="<?= htmlspecialchars($game['title']) ?>" required>
@@ -121,20 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea id="description" name="description" rows="4" class="input-field"><?= htmlspecialchars($game['description']) ?></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="cover_image">Cover Image</label>
-                        <?php if ($game['cover_image']): ?>
-                            <div>
-                                <img src="assets/<?= $game['cover_image'] ?>" alt="Current Cover" style="max-width: 200px; margin-bottom: 10px; border-radius: 5px;">
-                                <br>
-                                <label style="display: flex; align-items: center;">
-                                    <input type="checkbox" name="remove_image"> Remove current image
-                                </label>
-                            </div>
-                        <?php endif; ?>
-                        <input type="file" id="cover_image" name="cover_image" accept="image/*" class="input-field">
                     </div>
                     
                     <div class="actions">

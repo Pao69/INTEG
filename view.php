@@ -27,41 +27,66 @@ if (!$game) {
 </head>
 <body>
     <div class="container">
-        <div class="form-card1">
-            <div class="form-card2">
+        <div class="game-showcase">
+            <div class="game-header">
                 <h1><?= htmlspecialchars($game['title']) ?></h1>
-                
+                <div class="game-meta">
+                    <span class="platform-badge"><?= htmlspecialchars($game['platform']) ?></span>
+                    <span class="genre-badge"><?= htmlspecialchars($game['genre']) ?></span>
+                </div>
+            </div>
+            
+            <div class="game-content">
                 <div class="game-details">
-                    <?php if ($game['cover_image']): ?>
-                        <div class="game-cover">
-                            <img src="assets/<?= $game['cover_image'] ?>" alt="<?= htmlspecialchars($game['title']) ?> Cover">
-                        </div>
-                    <?php endif; ?>
-                    
-                    <div class="game-info">
-                        <p><strong>Developer:</strong> <?= htmlspecialchars($game['developer']) ?></p>
-                        <?php if ($game['publisher']): ?>
-                            <p><strong>Publisher:</strong> <?= htmlspecialchars($game['publisher']) ?></p>
-                        <?php endif; ?>
-                        <?php if ($game['release_date']): ?>
-                            <p><strong>Release Date:</strong> <?= date('F j, Y', strtotime($game['release_date'])) ?></p>
-                        <?php endif; ?>
-                        <p><strong>Genre:</strong> <?= htmlspecialchars($game['genre']) ?></p>
-                        <p><strong>Platform:</strong> <?= htmlspecialchars($game['platform']) ?></p>
-                        <?php if ($game['description']): ?>
-                            <div class="game-description">
-                                <h3>Description</h3>
-                                <p><?= nl2br(htmlspecialchars($game['description'])) ?></p>
+                    <div class="detail-section">
+                        <h2>Game Information</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Developer</label>
+                                <span><?= htmlspecialchars($game['developer']) ?></span>
                             </div>
-                        <?php endif; ?>
+                            
+                            <?php if ($game['publisher']): ?>
+                            <div class="info-item">
+                                <label>Publisher</label>
+                                <span><?= htmlspecialchars($game['publisher']) ?></span>
+                            </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($game['release_date']): ?>
+                            <div class="info-item">
+                                <label>Release Date</label>
+                                <span><?= date('F j, Y', strtotime($game['release_date'])) ?></span>
+                            </div>
+                            <?php endif; ?>
+                            
+                            <div class="info-item">
+                                <label>Platform</label>
+                                <span><?= htmlspecialchars($game['platform']) ?></span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <label>Genre</label>
+                                <span><?= htmlspecialchars($game['genre']) ?></span>
+                            </div>
+                        </div>
                     </div>
+
+                    <?php if ($game['description']): ?>
+                    <div class="detail-section">
+                        <h2>Description</h2>
+                        <div class="game-description">
+                            <?= nl2br(htmlspecialchars($game['description'])) ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 </div>
-                
-                <div class="actions">
-                    <a href="edit.php?id=<?= $id ?>" class="btn">Edit</a>
-                    <a href="index.php" class="btn">Back to Library</a>
-                    <a href="delete.php?id=<?= $id ?>" class="btn danger" onclick="return confirm('Are you sure?')">Delete</a>
-                </div>
+            </div>
+            
+            <div class="actions">
+                <a href="edit.php?id=<?= $id ?>" class="btn">Edit Game</a>
+                <a href="index.php" class="btn">Back to Library</a>
+                <a href="delete.php?id=<?= $id ?>" class="btn danger" onclick="return confirm('Are you sure you want to delete this game?')">Delete Game</a>
             </div>
         </div>
     </div>

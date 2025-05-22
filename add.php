@@ -10,21 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $platform = $_POST['platform'];
     $description = $_POST['description'];
     
-    // Handle file upload
-    $cover_image = '';
-    if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'assets/';
-        $fileName = uniqid() . '_' . basename($_FILES['cover_image']['name']);
-        $targetPath = $uploadDir . $fileName;
-        
-        if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $targetPath)) {
-            $cover_image = $fileName;
-        }
-    }
-    
-    $stmt = $pdo->prepare("INSERT INTO games (title, developer, publisher, release_date, genre, platform, description, cover_image) 
-                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$title, $developer, $publisher, $release_date, $genre, $platform, $description, $cover_image]);
+    $stmt = $pdo->prepare("INSERT INTO games (title, developer, publisher, release_date, genre, platform, description) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$title, $developer, $publisher, $release_date, $genre, $platform, $description]);
     
     header("Location: index.php");
     exit;
@@ -44,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-card1">
             <div class="form-card2">
                 <h1>Add New Game</h1>
-                <form action="add.php" method="post" enctype="multipart/form-data">
+                <form action="add.php" method="post">
                     <div class="form-group">
                         <label for="title">Title*</label>
                         <input type="text" id="title" name="title" class="input-field" required>
@@ -93,11 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea id="description" name="description" rows="4" class="input-field"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="cover_image">Cover Image</label>
-                        <input type="file" id="cover_image" name="cover_image" accept="image/*" class="input-field">
                     </div>
                     
                     <div class="actions">
