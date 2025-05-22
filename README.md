@@ -1,65 +1,133 @@
-# 🌟 PHP CRUD Application
+# 🌟 VoidBound - Game Library Management System
 
-A simple and efficient CRUD (Create, Read, Update, Delete) web application built with PHP and MySQL.
+A modern, responsive web application for managing your video game collection. Built with PHP and MySQL, this system provides a comprehensive CRUD (Create, Read, Update, Delete) interface for game management.
 
-## 📋 Features
+## ✨ Key Features
 
-- ✨ Create new records
-- 📖 Read and view existing records
-- 📝 Update/Edit records
-- 🗑️ Delete records
-- 💅 Clean and responsive design with CSS
+- 🎮 **Game Management**
+  - Add new games with detailed information
+  - View comprehensive game details
+  - Edit existing game information
+  - Delete games from the library
+  
+- 🔍 **Advanced Search & Filtering**
+  - Search across multiple fields (title, developer, platform, etc.)
+  - Filter games by genre
+  - Filter games by platform
+  - Responsive search interface
+  
+- 📱 **User Interface**
+  - Clean and modern design
+  - Responsive layout for all devices
+  - Intuitive navigation
+  - Interactive data tables
+  - Form validation and error handling
 
-## 🛠️ Prerequisites
+## 🛠️ Technical Stack
 
-- PHP 7.0 or higher
-- MySQL/MariaDB
-- XAMPP/WAMP/MAMP or any PHP development environment
-- Web browser
+- **Backend:** PHP 7.0+
+- **Database:** MySQL/MariaDB
+- **Frontend:** HTML5, CSS3, JavaScript
+- **Server:** Apache/XAMPP
+- **Additional:** PDO for database operations
+
+## 📋 Database Schema
+
+The application uses a single table `games` with the following structure:
+
+```sql
+CREATE TABLE games (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    developer VARCHAR(255) NOT NULL,
+    publisher VARCHAR(255),
+    release_date DATE,
+    genre ENUM('Action', 'Adventure', 'RPG', 'Strategy', 'Sports', 'Puzzle', 'Other'),
+    platform ENUM('PC', 'PlayStation', 'Xbox', 'Nintendo Switch', 'Mobile', 'Other'),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+### 📝 Field Descriptions
+
+- `id`: Unique identifier for each game
+- `title`: Name of the game (required)
+- `developer`: Company/individual that developed the game (required)
+- `publisher`: Publishing company (optional)
+- `release_date`: Game's release date (optional)
+- `genre`: Game category (predefined options available)
+- `platform`: Gaming platform (predefined options available)
+- `description`: Detailed game description (optional)
+- `created_at`: Record creation timestamp
+- `updated_at`: Last modification timestamp
 
 ## 🚀 Installation
 
-1. Clone this repository to your local machine:
-```bash
-git clone [your-repository-url]
-```
+1. **Prerequisites**
+   - PHP 7.0 or higher
+   - MySQL/MariaDB
+   - XAMPP, WAMP, or similar PHP development environment
+   - Web browser
 
-2. Place the files in your web server directory (e.g., htdocs for XAMPP)
+2. **Database Setup**
+   ```bash
+   # Import the schema
+   mysql -u root -p < schema.sql
+   ```
 
-3. Configure your database connection in `db.php`
+3. **Application Setup**
+   - Clone the repository to your web server directory:
+     ```bash
+     git clone [your-repository-url]
+     ```
+   - Configure database connection in `db.php`:
+     ```php
+     $host = 'localhost';
+     $dbname = 'game_library';
+     $username = 'your_username';
+     $password = 'your_password';
+     ```
 
-4. Import the database schema (if provided)
+4. **Access the Application**
+   - Open your web browser
+   - Navigate to: `http://localhost/[project-folder-name]`
 
-5. Access the application through your web browser:
-```
-http://localhost/[project-folder-name]
+## 💻 Usage Guide
 
-```
+1. **Adding a Game**
+   - Click "Add New Game" button
+   - Fill in the required fields (Title, Developer)
+   - Add optional information as needed
+   - Click "Add Game" to save
 
-## 📁 Project Structure
+2. **Viewing Games**
+   - Browse the main page for all games
+   - Click on any game row to view details
+   - Use search and filters to find specific games
 
-```
-.
-├── index.php      # Main entry point and listing page
-├── add.php        # Add new record functionality
-├── edit.php       # Edit existing records
-├── delete.php     # Delete records
-├── view.php       # View individual records
-├── db.php         # Database connection configuration
-└── style.css      # Styling and layout
-```
+3. **Editing Games**
+   - Click on a game to view details
+   - Click "Edit Game" button
+   - Modify the information
+   - Click "Update Game" to save changes
 
-## 💻 Usage
+4. **Deleting Games**
+   - Click on a game to view details
+   - Click "Delete Game" button
+   - Confirm the deletion
 
-1. 📱 Open the application in your web browser
-2. ➕ Click "Add New" to create a new record
-3. 📋 View the list of records on the main page
-4. ✏️ Click "Edit" to modify existing records
-5. 🗑️ Click "Delete" to remove records
+## 🔒 Security Features
+
+- PDO prepared statements for SQL injection prevention
+- Input validation and sanitization
+- XSS protection through `htmlspecialchars()`
+- Secure database configuration
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📝 License
 
@@ -67,7 +135,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 👤 Author
 
-Created with ❤️ by Shaiyon
+Created with ❤️ by [Your Name]
 
 ---
 ⭐️ If you found this project helpful, please give it a star! 
