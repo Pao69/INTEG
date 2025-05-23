@@ -135,7 +135,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 👤 Author
 
-Created with ❤️ by [Your Name]
+Created with ❤️ by Shaiyon
 
 ---
 ⭐️ If you found this project helpful, please give it a star! 
