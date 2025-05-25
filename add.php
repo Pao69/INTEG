@@ -1,8 +1,8 @@
 <?php
-/**
- * Add New Game Page
- * Handles the form submission and display for adding new games to the database
- */
+
+    // Add New Game Page
+    // Handles the form submission and display for adding new games to the database
+ 
 
 // Include database connection
 include 'db.php';

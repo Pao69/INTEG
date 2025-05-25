@@ -38,9 +38,11 @@ include 'db.php';
                             </div>
                             <!-- Filter Dropdowns -->
                             <div class="filter-group">
+
                                 <!-- Genre Filter -->
                                 <select name="genre" onchange="this.form.submit()">
                                     <option value="">All Genres</option>
+                                    
                                     <?php
                                     // Fetch unique genres from database
                                     $genres = $pdo->query("SELECT DISTINCT genre FROM games ORDER BY genre");
@@ -54,6 +56,7 @@ include 'db.php';
                                 <!-- Platform Filter -->
                                 <select name="platform" onchange="this.form.submit()">
                                     <option value="">All Platforms</option>
+
                                     <?php
                                     // Fetch unique platforms from database
                                     $platforms = $pdo->query("SELECT DISTINCT platform FROM games ORDER BY platform");
